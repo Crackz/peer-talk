@@ -1,6 +1,6 @@
 exports.apps = [
   {
-    name: "peer-talk",
+    name: "Peer Talk API",
     script: "bin/app",
     interpreter: "none",
   },
