@@ -10,7 +10,10 @@ import styles from "./styles.module.css";
  * UserMedia constraints
  */
 const constraints: MediaStreamConstraints = {
-  audio: true,
+  audio: {
+    noiseSuppression: true,
+    echoCancellation: true,
+  },
   video: {
     facingMode: {
       ideal: "user",
@@ -29,6 +32,16 @@ const Page = () => {
     navigator.mediaDevices
       .getUserMedia(constraints)
       .then((stream) => {
+        const ctx = new AudioContext();
+        const gainNode = ctx.createGain();
+        const audioDest = ctx.createMediaStreamDestination();
+        const source = ctx.createMediaStreamSource(stream);
+
+        // gainNode is set to 0.5
+        gainNode.connect(audioDest);
+        gainNode.gain.value = 0.5;
+        source.connect(gainNode);
+
         setUserStream(stream);
       })
       .catch((err) => {

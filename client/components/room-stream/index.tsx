@@ -28,11 +28,21 @@ export type StreamTracksStatesState = {
 };
 
 const configuration = {
-  // Using From https://www.metered.ca/tools/openrelay/
   iceServers: [
+    {
+      urls: "stun:stun1.l.google.com:19302",
+    },
+    {
+      urls: "stun:stun3.l.google.com:19302",
+    },
+    {
+      urls: "stun:stun4.l.google.com:19302",
+    },
+    // Using From https://www.metered.ca/tools/openrelay/
     {
       urls: "stun:openrelay.metered.ca:80",
     },
+    { urls: "stun:openrelay.metered.ca:443" },
     {
       urls: "turn:openrelay.metered.ca:80",
       username: "openrelayproject",
@@ -131,6 +141,7 @@ const RoomStream = ({ roomId, userStream }: RoomStreamProps) => {
 
       console.log(
         "IS ENABLED VIDEO AND MIC: ",
+        console.log(stream.getVideoTracks()),
         stream.getVideoTracks().some((track) => track.enabled),
         stream.getAudioTracks().some((track) => track.enabled)
       );
