@@ -39,6 +39,7 @@ const RoomStreamVideos = ({
           isVideoEnabled={userStreamTracksStates.camera}
           srcObject={userStream}
           autoPlay
+          muted={true}
         />
         {!userStreamTracksStates.mic && renderMicOffIcon()}
       </div>
