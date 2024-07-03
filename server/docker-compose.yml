@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  api:
+    build: .
+    container_name: "peer-talk"
+    ports:
+      - 4000:4000
+    networks:
+      - peer-talk
+    volumes:
+      - ./:/app
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    container_name: "peer-talk-postgres"
+    ports: 
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - PGDATA=/var/lib/postgresql/data
+    networks:
+      - peer-talk
+    volumes:
+      - peer-talk-postgres:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: peer-talk-pgadmin
+    image: dpage/pgadmin4:latest
+    ports:
+      - 9000:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+      - PGADMIN_LISTEN_PORT=80
+    networks:
+      - peer-talk
+    volumes:
+      - peer-talk-pgadmin:/var/lib/pgadmin
+
+volumes:
+  peer-talk-postgres:
+  peer-talk-pgadmin:
+
+networks:
+  peer-talk:
+    driver: bridge

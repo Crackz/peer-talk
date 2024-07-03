@@ -1,0 +1,31 @@
+{
+    "cSpell.words": [
+        "cmds",
+        "dbname",
+        "DBTX",
+        "dotenv",
+        "godotenv",
+        "golangci",
+        "gonic",
+        "immer",
+        "jackc",
+        "jmoiron",
+        "joho",
+        "labstack",
+        "mapstructure",
+        "notblank",
+        "olahol",
+        "openrelay",
+        "openrelayproject",
+        "sqlc",
+        "sqlx",
+        "sslmode",
+        "Upgrader",
+        "uuidv",
+        "zustand"
+    ],
+    "sqltools.format": {
+        "language": "sql",
+        "linesBetweenQueries": 2,
+    },
+}

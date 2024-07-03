@@ -1,0 +1,60 @@
+version: "3"
+
+tasks:
+  install:
+    cmds:
+      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.58.1
+      - go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+
+  build:
+    cmds:
+      - go build -o bin/app cmd/main.go
+
+  run:
+    cmds:
+      - docker compose up -d
+      - docker logs -f peer-talk
+
+  stop:
+    cmds:
+      - docker compose stop
+
+  restart:
+    cmds:
+      - docker compose restart
+      - docker logs -f peer-talk
+
+  generate:
+    cmds:
+      - sqlc generate
+  migrate-up:
+    dotenv: [".env"]
+    cmds:
+      - migrate --path "./db/migrations" --database "postgresql://$DB_USER:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME?sslmode=$DB_SSL_MODE&options=$DB_ENDPOINT" --verbose up
+  migrate-down:
+    dotenv: [".env"]
+    cmds:
+      - migrate --path "./db/migrations" --database "postgresql://$DB_USER:$    DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME?sslmode=$DB_SSL_MODE" --verbose down
+
+  # test:
+  #   cmds:
+  #     - go test -v ./...
+  # test-integration:
+  #   cmds:
+  #     - docker compose up -d db
+  #     - go test --tags=integration -v ./...
+  #   env:
+  #     DB_USER: admin
+  #     DB_PASSWORD: admin
+  #     DB_NAME: postgres
+  #     DB_HOST: localhost
+  #     DB_PORT: 5432
+  #     DB_SSL_MODE: disable
+
+  # test-e2e:
+  #   cmds:
+  #     - docker compose up -d --build
+  #     - go test --tags=e2e -v ./...
+  # # lint:
+  # #   cmds:
+  # #     - golangci-lint run
