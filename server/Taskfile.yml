@@ -24,6 +24,10 @@ tasks:
       - docker compose restart
       - docker logs -f peer-talk
 
+  log:
+    cmds:
+      - docker logs -f peer-talk
+
   generate:
     cmds:
       - sqlc generate

@@ -44,10 +44,6 @@ func (h *Hub) createOrJoinRoomHandler(socket *melody.Session, joinRoomPayload *C
 	member := h.membersManager.getOne(user.Id)
 
 	if member != nil {
-		if member.GetRoomId() == joinRoomPayload.RoomId {
-			return nil
-		}
-
 		err := h.leaveRoomHandler(socket)
 		if err != nil {
 			return err
