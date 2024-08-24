@@ -38,26 +38,6 @@ const configuration = {
     {
       urls: "stun:stun4.l.google.com:19302",
     },
-    // Using From https://www.metered.ca/tools/openrelay/
-    {
-      urls: "stun:openrelay.metered.ca:80",
-    },
-    { urls: "stun:openrelay.metered.ca:443" },
-    {
-      urls: "turn:openrelay.metered.ca:80",
-      username: "openrelayproject",
-      credential: "openrelayproject",
-    },
-    {
-      urls: "turn:openrelay.metered.ca:443",
-      username: "openrelayproject",
-      credential: "openrelayproject",
-    },
-    {
-      urls: "turn:openrelay.metered.ca:443?transport=tcp",
-      username: "openrelayproject",
-      credential: "openrelayproject",
-    },
   ],
 };
 
@@ -152,6 +132,11 @@ const RoomStream = ({ roomId, userStream }: RoomStreamProps) => {
       const streamTrackState: PeerStreamTrackState = JSON.parse(data);
       console.log("streamTrackState: ", streamTrackState);
       updateStreamTrackStateToUsersPeers(userId, streamTrackState);
+    });
+
+    peer.on("close", () => {
+      console.log(`REMOVING PEER: ${userId}`);
+      removePeerFromUsersPeers(userId);
     });
 
     addPeerToUsersPeers(userId, peer);
